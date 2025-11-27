@@ -473,6 +473,15 @@ export const timelineEventRepository = {
       'SELECT * FROM timeline_events WHERE hubspot_object_type = ? AND hubspot_object_id = ? ORDER BY timestamp DESC LIMIT ?'
     ).all(objectType, objectId, limit) as Record<string, unknown>[];
     return rows.map(mapRowToTimelineEvent);
+  },
+
+  update(id: string, updates: { hubspotTimelineEventId?: string }) {
+    const db = getDatabase();
+    if (updates.hubspotTimelineEventId !== undefined) {
+      db.prepare('UPDATE timeline_events SET hubspot_timeline_event_id = ? WHERE id = ?')
+        .run(updates.hubspotTimelineEventId, id);
+    }
+    return this.findById(id);
   }
 };
 

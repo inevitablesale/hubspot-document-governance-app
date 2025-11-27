@@ -63,14 +63,7 @@ export class TimelineService {
       );
 
       // Update with HubSpot ID
-      timelineEventRepository.create({
-        id: eventId,
-        hubspotObjectType: options.objectType,
-        hubspotObjectId: options.objectId,
-        documentId: options.documentId,
-        eventType: options.eventType,
-        title: options.title,
-        body: options.body,
+      timelineEventRepository.update(eventId, {
         hubspotTimelineEventId: response.data.id,
       });
     } catch {
